@@ -9,7 +9,7 @@ export default defineConfig({
 	test: {
 		environment: 'node',
 		coverage: {
-			reporter: ['text', 'json'],
+			reporter: ['text', 'json-summary'],
 		},
 	},
 })
