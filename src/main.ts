@@ -53,20 +53,22 @@ export async function run() {
  *
  * @param packageJson - The package.json object
  */
-export function getNodeVersion(packageJson: PackageJsonStub): string | undefined {
-	if (packageJson.devEngines?.runtime) {
-		const version = [packageJson.devEngines.runtime].flat().find((r) => r.name && r.name.toLowerCase() === 'node' && r.version)
+export function getNodeVersion({ devEngines, engines }: PackageJsonStub): string | undefined {
+	if (devEngines?.runtime) {
+		const version = [devEngines.runtime].flat().find((r) => r.name && r.name.toLowerCase() === 'node' && r.version)
 		if (version) {
 			core.debug('Found devEngines entry for Node.js')
-			return version?.version
+			return version.version
 		}
 	}
 
-	if (packageJson.engines?.node) {
+	if (engines?.node) {
 		core.debug('Falling back to engines entry for Node.js')
-		return packageJson.engines.node
+		return engines.node
 	}
 
+	core.debug('Neither devEngines nor engines entry for Node.js found')
+	core.debug(JSON.stringify({ devEngines, engines }))
 	return undefined
 }
 

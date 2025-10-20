@@ -17165,18 +17165,23 @@ async function run() {
 *
 * @param packageJson - The package.json object
 */
-function getNodeVersion(packageJson) {
-	if (packageJson.devEngines?.runtime) {
-		const version = [packageJson.devEngines.runtime].flat().find((r) => r.name && r.name.toLowerCase() === "node" && r.version);
+function getNodeVersion({ devEngines, engines }) {
+	if (devEngines?.runtime) {
+		const version = [devEngines.runtime].flat().find((r) => r.name && r.name.toLowerCase() === "node" && r.version);
 		if (version) {
 			import_core.debug("Found devEngines entry for Node.js");
-			return version?.version;
+			return version.version;
 		}
 	}
-	if (packageJson.engines?.node) {
+	if (engines?.node) {
 		import_core.debug("Falling back to engines entry for Node.js");
-		return packageJson.engines.node;
+		return engines.node;
 	}
+	import_core.debug("Neither devEngines nor engines entry for Node.js found");
+	import_core.debug(JSON.stringify({
+		devEngines,
+		engines
+	}));
 }
 /**
 * Get the Node.js version specified in the package.json file.
