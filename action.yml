@@ -24,7 +24,7 @@ inputs:
 outputs:
   node-version:
     description: The detected node version
-  package-manager:
+  package-manager-name:
     description: The detected package manager name
   package-manager-version:
     description: The detected package manager version

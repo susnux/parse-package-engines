@@ -32,13 +32,13 @@ export async function run() {
 		}
 
 		core.debug(`Trying to read package.json at: ${path}`)
-		const packageJson = await import(path, { with: { type: 'json' } })
+		const { default: packageJson } = await import(path, { with: { type: 'json' } })
 		core.debug('Successfully read package.json. Starting to parse engines...')
 
 		core.setOutput('node-version', getNodeVersion(packageJson) ?? '')
 
 		const { name, version } = getPackageManagerInfo(packageJson)
-		core.setOutput('package-manager', name ?? '')
+		core.setOutput('package-manager-name', name ?? '')
 		core.setOutput('package-manager-version', version ?? '')
 	} catch (error) {
 		// Fail the workflow run if an error occurs
@@ -52,6 +52,8 @@ export async function run() {
  * Get the Node.js version specified in the package.json file.
  *
  * @param packageJson - The package.json object
+ * @param packageJson.devEngines - The devEngines field in package.json
+ * @param packageJson.engines - The engines field in package.json
  */
 export function getNodeVersion({ devEngines, engines }: PackageJsonStub): string | undefined {
 	if (devEngines?.runtime) {

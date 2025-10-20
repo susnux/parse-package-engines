@@ -17150,11 +17150,11 @@ async function run() {
 			return;
 		}
 		import_core.debug(`Trying to read package.json at: ${path$5}`);
-		const packageJson = await import(path$5, { with: { type: "json" } });
+		const { default: packageJson } = await import(path$5, { with: { type: "json" } });
 		import_core.debug("Successfully read package.json. Starting to parse engines...");
 		import_core.setOutput("node-version", getNodeVersion(packageJson) ?? "");
 		const { name, version } = getPackageManagerInfo(packageJson);
-		import_core.setOutput("package-manager", name ?? "");
+		import_core.setOutput("package-manager-name", name ?? "");
 		import_core.setOutput("package-manager-version", version ?? "");
 	} catch (error$1) {
 		if (error$1 instanceof Error) import_core.setFailed(error$1.message);
@@ -17164,6 +17164,8 @@ async function run() {
 * Get the Node.js version specified in the package.json file.
 *
 * @param packageJson - The package.json object
+* @param packageJson.devEngines - The devEngines field in package.json
+* @param packageJson.engines - The engines field in package.json
 */
 function getNodeVersion({ devEngines, engines }) {
 	if (devEngines?.runtime) {
