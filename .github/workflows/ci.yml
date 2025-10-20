@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   test-dev-engines:
-    name: Test devEngines parsing
+    name: '"devEngines" only'
     runs-on: ubuntu-latest
 
     steps:
@@ -34,3 +34,63 @@ jobs:
           [ "${{ steps.test-action.outputs.node-version }}" = ">=16.0.0" ] && \
           [ "${{ steps.test-action.outputs.package-manager-name }}" = "yarn" ] && \
           [ "${{ steps.test-action.outputs.package-manager-version }}" = ">=2.0.0" ]
+
+  dev-engines-and-engines:
+    name: '"devEngines" and "engines"'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      - name: Running action
+        id: test-action
+        uses: ./
+        with:
+          path: ./tests/fixtures/dev-engines-and-engines.json
+
+      - name: Check Output
+        run: |
+          [ "${{ steps.test-action.outputs.node-version }}" = "^22.0.0" ] && \
+          [ "${{ steps.test-action.outputs.package-manager-name }}" = "npm" ] && \
+          [ "${{ steps.test-action.outputs.package-manager-version }}" = "^10.5.0" ]
+
+  engines-only:
+    name: '"engines" only'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      - name: Running action
+        id: test-action
+        uses: ./
+        with:
+          path: ./tests/fixtures/engines-only.json
+
+      - name: Check Output
+        run: |
+          [ "${{ steps.test-action.outputs.node-version }}" = "^22.0.0" ] && \
+          [ "${{ steps.test-action.outputs.package-manager-name }}" = "npm" ] && \
+          [ "${{ steps.test-action.outputs.package-manager-version }}" = "^10.5.0" ]
+
+  package-manager-only:
+    name: '"packageManager" only'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      - name: Running action
+        id: test-action
+        uses: ./
+        with:
+          path: ./tests/fixtures/package-manager-only.json
+
+      - name: Check Output
+        run: |
+          [ "${{ steps.test-action.outputs.node-version }}" = "" ] && \
+          [ "${{ steps.test-action.outputs.package-manager-name }}" = "npm" ] && \
+          [ "${{ steps.test-action.outputs.package-manager-version }}" = "10.5.1" ]

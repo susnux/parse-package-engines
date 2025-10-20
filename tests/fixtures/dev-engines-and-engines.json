@@ -1,0 +1,17 @@
+{
+	"name": "dev-engines-and-engines",
+	"private": true,
+	"devEngines": {
+		"runtime": {
+			"name": "node",
+			"version": "^22.0.0"
+		},
+		"packageManager": {
+			"name": "npm",
+			"version": "^10.5.0"
+		}
+	},
+	"engines": {
+		"node": "^20.0.0 || ^22.0.0"
+	}
+}
