@@ -29,6 +29,7 @@ import * as m$3 from "zlib";
 import * as m$2 from "string_decoder";
 import * as m$1 from "child_process";
 import * as m from "timers";
+import { resolve } from "node:path";
 
 //#region rolldown:runtime
 var __create = Object.create;
@@ -3658,8 +3659,8 @@ var require_util$5 = /* @__PURE__ */ __commonJS({ "node_modules/undici/lib/fetch
 		let res;
 		let rej;
 		return {
-			promise: new Promise((resolve, reject) => {
-				res = resolve;
+			promise: new Promise((resolve$1, reject) => {
+				res = resolve$1;
 				rej = reject;
 			}),
 			resolve: res,
@@ -4962,8 +4963,8 @@ Content-Type: ${value.type || "application/octet-stream"}\r\n\r\n`);
 							});
 						}
 					});
-					const busboyResolve = new Promise((resolve, reject) => {
-						busboy.on("finish", resolve);
+					const busboyResolve = new Promise((resolve$1, reject) => {
+						busboy.on("finish", resolve$1);
 						busboy.on("error", (err) => reject(new TypeError(err)));
 					});
 					if (this.body !== null) for await (const chunk of consumeBody(this[kState$7].body)) busboy.write(chunk);
@@ -5402,9 +5403,9 @@ var require_dispatcher_base = /* @__PURE__ */ __commonJS({ "node_modules/undici/
 			this[kInterceptors$5] = newInterceptors;
 		}
 		close(callback) {
-			if (callback === void 0) return new Promise((resolve, reject) => {
+			if (callback === void 0) return new Promise((resolve$1, reject) => {
 				this.close((err, data) => {
-					return err ? reject(err) : resolve(data);
+					return err ? reject(err) : resolve$1(data);
 				});
 			});
 			if (typeof callback !== "function") throw new InvalidArgumentError$19("invalid callback");
@@ -5433,9 +5434,9 @@ var require_dispatcher_base = /* @__PURE__ */ __commonJS({ "node_modules/undici/
 				callback = err;
 				err = null;
 			}
-			if (callback === void 0) return new Promise((resolve, reject) => {
+			if (callback === void 0) return new Promise((resolve$1, reject) => {
 				this.destroy(err, (err$1, data) => {
-					return err$1 ? reject(err$1) : resolve(data);
+					return err$1 ? reject(err$1) : resolve$1(data);
 				});
 			});
 			if (typeof callback !== "function") throw new InvalidArgumentError$19("invalid callback");
@@ -6279,13 +6280,13 @@ var require_client = /* @__PURE__ */ __commonJS({ "node_modules/undici/lib/clien
 			return this[kNeedDrain$3] < 2;
 		}
 		async [kClose$5]() {
-			return new Promise((resolve) => {
-				if (!this[kSize$4]) resolve(null);
-				else this[kClosedResolve$1] = resolve;
+			return new Promise((resolve$1) => {
+				if (!this[kSize$4]) resolve$1(null);
+				else this[kClosedResolve$1] = resolve$1;
 			});
 		}
 		async [kDestroy$3](err) {
-			return new Promise((resolve) => {
+			return new Promise((resolve$1) => {
 				const requests = this[kQueue$1].splice(this[kPendingIdx]);
 				for (let i = 0; i < requests.length; i++) {
 					const request$1 = requests[i];
@@ -6296,7 +6297,7 @@ var require_client = /* @__PURE__ */ __commonJS({ "node_modules/undici/lib/clien
 						this[kClosedResolve$1]();
 						this[kClosedResolve$1] = null;
 					}
-					resolve();
+					resolve$1();
 				};
 				if (this[kHTTP2Session] != null) {
 					util$12.destroy(this[kHTTP2Session], err);
@@ -6801,7 +6802,7 @@ var require_client = /* @__PURE__ */ __commonJS({ "node_modules/undici/lib/clien
 			connector: client[kConnector]
 		});
 		try {
-			const socket = await new Promise((resolve, reject) => {
+			const socket = await new Promise((resolve$1, reject) => {
 				client[kConnector]({
 					host,
 					hostname,
@@ -6811,7 +6812,7 @@ var require_client = /* @__PURE__ */ __commonJS({ "node_modules/undici/lib/clien
 					localAddress: client[kLocalAddress]
 				}, (err, socket$1) => {
 					if (err) reject(err);
-					else resolve(socket$1);
+					else resolve$1(socket$1);
 				});
 			});
 			if (client.destroyed) {
@@ -7339,10 +7340,10 @@ var require_client = /* @__PURE__ */ __commonJS({ "node_modules/undici/lib/clien
 				cb();
 			}
 		}
-		const waitForDrain = () => new Promise((resolve, reject) => {
+		const waitForDrain = () => new Promise((resolve$1, reject) => {
 			assert$12(callback === null);
 			if (socket[kError$2]) reject(socket[kError$2]);
-			else callback = resolve;
+			else callback = resolve$1;
 		});
 		if (client[kHTTPConnVersion] === "h2") {
 			h2stream.on("close", onDrain).on("drain", onDrain);
@@ -7623,8 +7624,8 @@ var require_pool_base = /* @__PURE__ */ __commonJS({ "node_modules/undici/lib/po
 		}
 		async [kClose$4]() {
 			if (this[kQueue].isEmpty()) return Promise.all(this[kClients$4].map((c) => c.close()));
-			else return new Promise((resolve) => {
-				this[kClosedResolve] = resolve;
+			else return new Promise((resolve$1) => {
+				this[kClosedResolve] = resolve$1;
 			});
 		}
 		async [kDestroy$2](err) {
@@ -8074,14 +8075,14 @@ var require_readable = /* @__PURE__ */ __commonJS({ "node_modules/undici/lib/api
 				return Promise.reject(err);
 			}
 			if (this.closed) return Promise.resolve(null);
-			return new Promise((resolve, reject) => {
+			return new Promise((resolve$1, reject) => {
 				const signalListenerCleanup = signal ? util$9.addAbortListener(signal, () => {
 					this.destroy();
 				}) : noop;
 				this.on("close", function() {
 					signalListenerCleanup();
 					if (signal && signal.aborted) reject(signal.reason || Object.assign(/* @__PURE__ */ new Error("The operation was aborted"), { name: "AbortError" }));
-					else resolve(null);
+					else resolve$1(null);
 				}).on("error", noop).on("data", function(chunk) {
 					limit -= chunk.length;
 					if (limit <= 0) this.destroy();
@@ -8098,11 +8099,11 @@ var require_readable = /* @__PURE__ */ __commonJS({ "node_modules/undici/lib/api
 	async function consume(stream$2, type) {
 		if (isUnusable(stream$2)) throw new TypeError("unusable");
 		assert$11(!stream$2[kConsume]);
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve$1, reject) => {
 			stream$2[kConsume] = {
 				type,
 				stream: stream$2,
-				resolve,
+				resolve: resolve$1,
 				reject,
 				length: 0,
 				body: []
@@ -8127,10 +8128,10 @@ var require_readable = /* @__PURE__ */ __commonJS({ "node_modules/undici/lib/api
 		while (consume$1.stream.read() != null);
 	}
 	function consumeEnd(consume$1) {
-		const { type, body, resolve, stream: stream$2, length } = consume$1;
+		const { type, body, resolve: resolve$1, stream: stream$2, length } = consume$1;
 		try {
-			if (type === "text") resolve(toUSVString$1(Buffer.concat(body)));
-			else if (type === "json") resolve(JSON.parse(Buffer.concat(body)));
+			if (type === "text") resolve$1(toUSVString$1(Buffer.concat(body)));
+			else if (type === "json") resolve$1(JSON.parse(Buffer.concat(body)));
 			else if (type === "arrayBuffer") {
 				const dst = new Uint8Array(length);
 				let pos = 0;
@@ -8138,10 +8139,10 @@ var require_readable = /* @__PURE__ */ __commonJS({ "node_modules/undici/lib/api
 					dst.set(buf, pos);
 					pos += buf.byteLength;
 				}
-				resolve(dst.buffer);
+				resolve$1(dst.buffer);
 			} else if (type === "blob") {
 				if (!Blob$1) Blob$1 = require_builtin_esm_external_require_buffer().Blob;
-				resolve(new Blob$1(body, { type: stream$2[kContentType] }));
+				resolve$1(new Blob$1(body, { type: stream$2[kContentType] }));
 			}
 			consumeFinish(consume$1);
 		} catch (err) {
@@ -8361,9 +8362,9 @@ var require_api_request = /* @__PURE__ */ __commonJS({ "node_modules/undici/lib/
 		}
 	};
 	function request(opts, callback) {
-		if (callback === void 0) return new Promise((resolve, reject) => {
+		if (callback === void 0) return new Promise((resolve$1, reject) => {
 			request.call(this, opts, (err, data) => {
-				return err ? reject(err) : resolve(data);
+				return err ? reject(err) : resolve$1(data);
 			});
 		});
 		try {
@@ -8503,9 +8504,9 @@ var require_api_stream = /* @__PURE__ */ __commonJS({ "node_modules/undici/lib/a
 		}
 	};
 	function stream(opts, factory, callback) {
-		if (callback === void 0) return new Promise((resolve, reject) => {
+		if (callback === void 0) return new Promise((resolve$1, reject) => {
 			stream.call(this, opts, factory, (err, data) => {
-				return err ? reject(err) : resolve(data);
+				return err ? reject(err) : resolve$1(data);
 			});
 		});
 		try {
@@ -8739,9 +8740,9 @@ var require_api_upgrade = /* @__PURE__ */ __commonJS({ "node_modules/undici/lib/
 		}
 	};
 	function upgrade(opts, callback) {
-		if (callback === void 0) return new Promise((resolve, reject) => {
+		if (callback === void 0) return new Promise((resolve$1, reject) => {
 			upgrade.call(this, opts, (err, data) => {
-				return err ? reject(err) : resolve(data);
+				return err ? reject(err) : resolve$1(data);
 			});
 		});
 		try {
@@ -8814,9 +8815,9 @@ var require_api_connect = /* @__PURE__ */ __commonJS({ "node_modules/undici/lib/
 		}
 	};
 	function connect(opts, callback) {
-		if (callback === void 0) return new Promise((resolve, reject) => {
+		if (callback === void 0) return new Promise((resolve$1, reject) => {
 			connect.call(this, opts, (err, data) => {
-				return err ? reject(err) : resolve(data);
+				return err ? reject(err) : resolve$1(data);
 			});
 		});
 		try {
@@ -11567,7 +11568,7 @@ var require_fetch = /* @__PURE__ */ __commonJS({ "node_modules/undici/lib/fetch/
 			const url = requestCurrentURL(request$1);
 			/** @type {import('../..').Agent} */
 			const agent = fetchParams.controller.dispatcher;
-			return new Promise((resolve, reject) => agent.dispatch({
+			return new Promise((resolve$1, reject) => agent.dispatch({
 				path: url.pathname + url.search,
 				origin: url.origin,
 				method: request$1.method,
@@ -11620,7 +11621,7 @@ var require_fetch = /* @__PURE__ */ __commonJS({ "node_modules/undici/lib/fetch/
 						decoders$1.length = 0;
 						break;
 					}
-					resolve({
+					resolve$1({
 						status,
 						statusText,
 						headersList: headers[kHeadersList$2],
@@ -11653,7 +11654,7 @@ var require_fetch = /* @__PURE__ */ __commonJS({ "node_modules/undici/lib/fetch/
 						const val = headersList[n + 1].toString("latin1");
 						headers[kHeadersList$2].append(key, val);
 					}
-					resolve({
+					resolve$1({
 						status,
 						statusText: STATUS_CODES[status],
 						headersList: headers[kHeadersList$2],
@@ -14671,11 +14672,11 @@ var require_lib = /* @__PURE__ */ __commonJS({ "node_modules/@actions/http-clien
 	};
 	var __awaiter$9 = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
 		function adopt(value) {
-			return value instanceof P ? value : new P(function(resolve) {
-				resolve(value);
+			return value instanceof P ? value : new P(function(resolve$1) {
+				resolve$1(value);
 			});
 		}
-		return new (P || (P = Promise))(function(resolve, reject) {
+		return new (P || (P = Promise))(function(resolve$1, reject) {
 			function fulfilled(value) {
 				try {
 					step(generator.next(value));
@@ -14691,7 +14692,7 @@ var require_lib = /* @__PURE__ */ __commonJS({ "node_modules/@actions/http-clien
 				}
 			}
 			function step(result) {
-				result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+				result.done ? resolve$1(result.value) : adopt(result.value).then(fulfilled, rejected);
 			}
 			step((generator = generator.apply(thisArg, _arguments || [])).next());
 		});
@@ -14785,26 +14786,26 @@ var require_lib = /* @__PURE__ */ __commonJS({ "node_modules/@actions/http-clien
 		}
 		readBody() {
 			return __awaiter$9(this, void 0, void 0, function* () {
-				return new Promise((resolve) => __awaiter$9(this, void 0, void 0, function* () {
+				return new Promise((resolve$1) => __awaiter$9(this, void 0, void 0, function* () {
 					let output = Buffer.alloc(0);
 					this.message.on("data", (chunk) => {
 						output = Buffer.concat([output, chunk]);
 					});
 					this.message.on("end", () => {
-						resolve(output.toString());
+						resolve$1(output.toString());
 					});
 				}));
 			});
 		}
 		readBodyBuffer() {
 			return __awaiter$9(this, void 0, void 0, function* () {
-				return new Promise((resolve) => __awaiter$9(this, void 0, void 0, function* () {
+				return new Promise((resolve$1) => __awaiter$9(this, void 0, void 0, function* () {
 					const chunks = [];
 					this.message.on("data", (chunk) => {
 						chunks.push(chunk);
 					});
 					this.message.on("end", () => {
-						resolve(Buffer.concat(chunks));
+						resolve$1(Buffer.concat(chunks));
 					});
 				}));
 			});
@@ -14979,11 +14980,11 @@ var require_lib = /* @__PURE__ */ __commonJS({ "node_modules/@actions/http-clien
 		*/
 		requestRaw(info$1, data) {
 			return __awaiter$9(this, void 0, void 0, function* () {
-				return new Promise((resolve, reject) => {
+				return new Promise((resolve$1, reject) => {
 					function callbackForResult(err, res) {
 						if (err) reject(err);
 						else if (!res) reject(/* @__PURE__ */ new Error("Unknown error"));
-						else resolve(res);
+						else resolve$1(res);
 					}
 					this.requestRawWithCallback(info$1, data, callbackForResult);
 				});
@@ -15124,19 +15125,19 @@ var require_lib = /* @__PURE__ */ __commonJS({ "node_modules/@actions/http-clien
 			return __awaiter$9(this, void 0, void 0, function* () {
 				retryNumber = Math.min(ExponentialBackoffCeiling, retryNumber);
 				const ms = ExponentialBackoffTimeSlice * Math.pow(2, retryNumber);
-				return new Promise((resolve) => setTimeout(() => resolve(), ms));
+				return new Promise((resolve$1) => setTimeout(() => resolve$1(), ms));
 			});
 		}
 		_processResponse(res, options) {
 			return __awaiter$9(this, void 0, void 0, function* () {
-				return new Promise((resolve, reject) => __awaiter$9(this, void 0, void 0, function* () {
+				return new Promise((resolve$1, reject) => __awaiter$9(this, void 0, void 0, function* () {
 					const statusCode = res.message.statusCode || 0;
 					const response = {
 						statusCode,
 						result: null,
 						headers: {}
 					};
-					if (statusCode === HttpCodes.NotFound) resolve(response);
+					if (statusCode === HttpCodes.NotFound) resolve$1(response);
 					function dateTimeDeserializer(key, value) {
 						if (typeof value === "string") {
 							const a = new Date(value);
@@ -15163,7 +15164,7 @@ var require_lib = /* @__PURE__ */ __commonJS({ "node_modules/@actions/http-clien
 						const err = new HttpClientError(msg, statusCode);
 						err.result = response.result;
 						reject(err);
-					} else resolve(response);
+					} else resolve$1(response);
 				}));
 			});
 		}
@@ -15177,11 +15178,11 @@ var require_lib = /* @__PURE__ */ __commonJS({ "node_modules/@actions/http-clien
 var require_auth = /* @__PURE__ */ __commonJS({ "node_modules/@actions/http-client/lib/auth.js": ((exports) => {
 	var __awaiter$8 = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
 		function adopt(value) {
-			return value instanceof P ? value : new P(function(resolve) {
-				resolve(value);
+			return value instanceof P ? value : new P(function(resolve$1) {
+				resolve$1(value);
 			});
 		}
-		return new (P || (P = Promise))(function(resolve, reject) {
+		return new (P || (P = Promise))(function(resolve$1, reject) {
 			function fulfilled(value) {
 				try {
 					step(generator.next(value));
@@ -15197,7 +15198,7 @@ var require_auth = /* @__PURE__ */ __commonJS({ "node_modules/@actions/http-clie
 				}
 			}
 			function step(result) {
-				result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+				result.done ? resolve$1(result.value) : adopt(result.value).then(fulfilled, rejected);
 			}
 			step((generator = generator.apply(thisArg, _arguments || [])).next());
 		});
@@ -15265,11 +15266,11 @@ var require_auth = /* @__PURE__ */ __commonJS({ "node_modules/@actions/http-clie
 var require_oidc_utils = /* @__PURE__ */ __commonJS({ "node_modules/@actions/core/lib/oidc-utils.js": ((exports) => {
 	var __awaiter$7 = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
 		function adopt(value) {
-			return value instanceof P ? value : new P(function(resolve) {
-				resolve(value);
+			return value instanceof P ? value : new P(function(resolve$1) {
+				resolve$1(value);
 			});
 		}
-		return new (P || (P = Promise))(function(resolve, reject) {
+		return new (P || (P = Promise))(function(resolve$1, reject) {
 			function fulfilled(value) {
 				try {
 					step(generator.next(value));
@@ -15285,7 +15286,7 @@ var require_oidc_utils = /* @__PURE__ */ __commonJS({ "node_modules/@actions/cor
 				}
 			}
 			function step(result) {
-				result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+				result.done ? resolve$1(result.value) : adopt(result.value).then(fulfilled, rejected);
 			}
 			step((generator = generator.apply(thisArg, _arguments || [])).next());
 		});
@@ -15347,11 +15348,11 @@ var require_oidc_utils = /* @__PURE__ */ __commonJS({ "node_modules/@actions/cor
 var require_summary = /* @__PURE__ */ __commonJS({ "node_modules/@actions/core/lib/summary.js": ((exports) => {
 	var __awaiter$6 = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
 		function adopt(value) {
-			return value instanceof P ? value : new P(function(resolve) {
-				resolve(value);
+			return value instanceof P ? value : new P(function(resolve$1) {
+				resolve$1(value);
 			});
 		}
-		return new (P || (P = Promise))(function(resolve, reject) {
+		return new (P || (P = Promise))(function(resolve$1, reject) {
 			function fulfilled(value) {
 				try {
 					step(generator.next(value));
@@ -15367,7 +15368,7 @@ var require_summary = /* @__PURE__ */ __commonJS({ "node_modules/@actions/core/l
 				}
 			}
 			function step(result) {
-				result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+				result.done ? resolve$1(result.value) : adopt(result.value).then(fulfilled, rejected);
 			}
 			step((generator = generator.apply(thisArg, _arguments || [])).next());
 		});
@@ -15750,11 +15751,11 @@ var require_io_util = /* @__PURE__ */ __commonJS({ "node_modules/@actions/io/lib
 	};
 	var __awaiter$5 = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
 		function adopt(value) {
-			return value instanceof P ? value : new P(function(resolve) {
-				resolve(value);
+			return value instanceof P ? value : new P(function(resolve$1) {
+				resolve$1(value);
 			});
 		}
-		return new (P || (P = Promise))(function(resolve, reject) {
+		return new (P || (P = Promise))(function(resolve$1, reject) {
 			function fulfilled(value) {
 				try {
 					step(generator.next(value));
@@ -15770,7 +15771,7 @@ var require_io_util = /* @__PURE__ */ __commonJS({ "node_modules/@actions/io/lib
 				}
 			}
 			function step(result) {
-				result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+				result.done ? resolve$1(result.value) : adopt(result.value).then(fulfilled, rejected);
 			}
 			step((generator = generator.apply(thisArg, _arguments || [])).next());
 		});
@@ -15914,11 +15915,11 @@ var require_io = /* @__PURE__ */ __commonJS({ "node_modules/@actions/io/lib/io.j
 	};
 	var __awaiter$4 = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
 		function adopt(value) {
-			return value instanceof P ? value : new P(function(resolve) {
-				resolve(value);
+			return value instanceof P ? value : new P(function(resolve$1) {
+				resolve$1(value);
 			});
 		}
-		return new (P || (P = Promise))(function(resolve, reject) {
+		return new (P || (P = Promise))(function(resolve$1, reject) {
 			function fulfilled(value) {
 				try {
 					step(generator.next(value));
@@ -15934,7 +15935,7 @@ var require_io = /* @__PURE__ */ __commonJS({ "node_modules/@actions/io/lib/io.j
 				}
 			}
 			function step(result) {
-				result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+				result.done ? resolve$1(result.value) : adopt(result.value).then(fulfilled, rejected);
 			}
 			step((generator = generator.apply(thisArg, _arguments || [])).next());
 		});
@@ -16162,11 +16163,11 @@ var require_toolrunner = /* @__PURE__ */ __commonJS({ "node_modules/@actions/exe
 	};
 	var __awaiter$3 = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
 		function adopt(value) {
-			return value instanceof P ? value : new P(function(resolve) {
-				resolve(value);
+			return value instanceof P ? value : new P(function(resolve$1) {
+				resolve$1(value);
 			});
 		}
-		return new (P || (P = Promise))(function(resolve, reject) {
+		return new (P || (P = Promise))(function(resolve$1, reject) {
 			function fulfilled(value) {
 				try {
 					step(generator.next(value));
@@ -16182,7 +16183,7 @@ var require_toolrunner = /* @__PURE__ */ __commonJS({ "node_modules/@actions/exe
 				}
 			}
 			function step(result) {
-				result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+				result.done ? resolve$1(result.value) : adopt(result.value).then(fulfilled, rejected);
 			}
 			step((generator = generator.apply(thisArg, _arguments || [])).next());
 		});
@@ -16369,7 +16370,7 @@ var require_toolrunner = /* @__PURE__ */ __commonJS({ "node_modules/@actions/exe
 			return __awaiter$3(this, void 0, void 0, function* () {
 				if (!ioUtil.isRooted(this.toolPath) && (this.toolPath.includes("/") || IS_WINDOWS && this.toolPath.includes("\\"))) this.toolPath = path$1.resolve(process.cwd(), this.options.cwd || process.cwd(), this.toolPath);
 				this.toolPath = yield io.which(this.toolPath, true);
-				return new Promise((resolve, reject) => __awaiter$3(this, void 0, void 0, function* () {
+				return new Promise((resolve$1, reject) => __awaiter$3(this, void 0, void 0, function* () {
 					this._debug(`exec tool: ${this.toolPath}`);
 					this._debug("arguments:");
 					for (const arg of this.args) this._debug(`   ${arg}`);
@@ -16423,7 +16424,7 @@ var require_toolrunner = /* @__PURE__ */ __commonJS({ "node_modules/@actions/exe
 						if (errbuffer.length > 0) this.emit("errline", errbuffer);
 						cp$1.removeAllListeners();
 						if (error$1) reject(error$1);
-						else resolve(exitCode);
+						else resolve$1(exitCode);
 					});
 					if (this.options.input) {
 						if (!cp$1.stdin) throw new Error("child process missing stdin");
@@ -16561,11 +16562,11 @@ var require_exec = /* @__PURE__ */ __commonJS({ "node_modules/@actions/exec/lib/
 	};
 	var __awaiter$2 = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
 		function adopt(value) {
-			return value instanceof P ? value : new P(function(resolve) {
-				resolve(value);
+			return value instanceof P ? value : new P(function(resolve$1) {
+				resolve$1(value);
 			});
 		}
-		return new (P || (P = Promise))(function(resolve, reject) {
+		return new (P || (P = Promise))(function(resolve$1, reject) {
 			function fulfilled(value) {
 				try {
 					step(generator.next(value));
@@ -16581,7 +16582,7 @@ var require_exec = /* @__PURE__ */ __commonJS({ "node_modules/@actions/exec/lib/
 				}
 			}
 			function step(result) {
-				result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+				result.done ? resolve$1(result.value) : adopt(result.value).then(fulfilled, rejected);
 			}
 			step((generator = generator.apply(thisArg, _arguments || [])).next());
 		});
@@ -16689,11 +16690,11 @@ var require_platform = /* @__PURE__ */ __commonJS({ "node_modules/@actions/core/
 	};
 	var __awaiter$1 = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
 		function adopt(value) {
-			return value instanceof P ? value : new P(function(resolve) {
-				resolve(value);
+			return value instanceof P ? value : new P(function(resolve$1) {
+				resolve$1(value);
 			});
 		}
-		return new (P || (P = Promise))(function(resolve, reject) {
+		return new (P || (P = Promise))(function(resolve$1, reject) {
 			function fulfilled(value) {
 				try {
 					step(generator.next(value));
@@ -16709,7 +16710,7 @@ var require_platform = /* @__PURE__ */ __commonJS({ "node_modules/@actions/core/
 				}
 			}
 			function step(result) {
-				result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+				result.done ? resolve$1(result.value) : adopt(result.value).then(fulfilled, rejected);
 			}
 			step((generator = generator.apply(thisArg, _arguments || [])).next());
 		});
@@ -16805,11 +16806,11 @@ var require_core = /* @__PURE__ */ __commonJS({ "node_modules/@actions/core/lib/
 	};
 	var __awaiter = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
 		function adopt(value) {
-			return value instanceof P ? value : new P(function(resolve) {
-				resolve(value);
+			return value instanceof P ? value : new P(function(resolve$1) {
+				resolve$1(value);
 			});
 		}
-		return new (P || (P = Promise))(function(resolve, reject) {
+		return new (P || (P = Promise))(function(resolve$1, reject) {
 			function fulfilled(value) {
 				try {
 					step(generator.next(value));
@@ -16825,7 +16826,7 @@ var require_core = /* @__PURE__ */ __commonJS({ "node_modules/@actions/core/lib/
 				}
 			}
 			function step(result) {
-				result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+				result.done ? resolve$1(result.value) : adopt(result.value).then(fulfilled, rejected);
 			}
 			step((generator = generator.apply(thisArg, _arguments || [])).next());
 		});
@@ -17142,7 +17143,12 @@ var import_core = /* @__PURE__ */ __toESM(require_core(), 1);
 */
 async function run() {
 	try {
-		const path$5 = import_core.getInput("path") || "./package.json";
+		const workingDirectory = import_core.getInput("working-directory", { required: false }) || process.env.GITHUB_WORKSPACE;
+		const path$5 = resolve(workingDirectory, import_core.getInput("path") || "./package.json");
+		if (!path$5.startsWith(workingDirectory)) {
+			import_core.setFailed("The provided path is outside of the working directory.");
+			return;
+		}
 		import_core.debug(`Trying to read package.json at: ${path$5}`);
 		const packageJson = await import(path$5, { with: { type: "json" } });
 		import_core.debug("Successfully read package.json. Starting to parse engines...");

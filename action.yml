@@ -16,6 +16,9 @@ inputs:
     description: 'Path to the package.json file'
     required: false
     default: './package.json'
+  working-directory:
+    description: 'The working directory to resolve the path against.'
+    required: false
 
 # Define your outputs here.
 outputs:

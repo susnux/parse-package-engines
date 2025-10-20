@@ -4,6 +4,7 @@
  */
 
 import * as core from '@actions/core'
+import { resolve } from 'node:path'
 
 interface PackageJsonStub {
 	devEngines?: {
@@ -22,9 +23,15 @@ interface PackageJsonStub {
  */
 export async function run() {
 	try {
-		const path = core.getInput('path') || './package.json'
-		core.debug(`Trying to read package.json at: ${path}`)
+		const workingDirectory = core.getInput('working-directory', { required: false }) || process.env.GITHUB_WORKSPACE!
+		const path = resolve(workingDirectory, core.getInput('path') || './package.json')
 
+		if (!path.startsWith(workingDirectory)) {
+			core.setFailed('The provided path is outside of the working directory.')
+			return
+		}
+
+		core.debug(`Trying to read package.json at: ${path}`)
 		const packageJson = await import(path, { with: { type: 'json' } })
 		core.debug('Successfully read package.json. Starting to parse engines...')
 
