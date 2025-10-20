@@ -1,3 +1,8 @@
+/*!
+ * SPDX-FileCopyrightText: 2025 Ferdinand Thiessen
+ * SPDX-License-Identifier: MIT
+ */
+
 import builtinModules from 'builtin-modules'
 import { defineConfig } from 'rolldown/config'
 import { esmExternalRequirePlugin } from 'rolldown/experimental'
