@@ -28,7 +28,7 @@ jobs:
         id: test-action
         uses: ./
         with:
-          path: tests/fixtures/dev-engines-only.json
+          path: ./tests/fixtures/dev-engines-only.json
 
       - name: Check Output
         run: |

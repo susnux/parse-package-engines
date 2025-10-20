@@ -23,7 +23,7 @@
   },
   "scripts": {
     "all": "npm run lint && npm run test && npm run coverage && npm run build",
-    "build": "esbuild --bundle --target=node22 --platform=node --format=esm src/index.ts --outfile=dist/index.js",
+    "build": "rolldown -c rolldown.config.js",
     "coverage": "npm run test:coverage && coverage-badges --output ./badges/coverage.svg",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
@@ -38,15 +38,13 @@
     "@github/local-action": "^6.0.0",
     "@nextcloud/eslint-config": "^9.0.0-rc.5",
     "@vitest/coverage-v8": "^3.2.4",
+    "builtin-modules": "^5.0.0",
     "coverage-badges-cli": "^2.2.0",
-    "esbuild": "^0.25.11",
     "eslint": "^9.36.0",
     "make-coverage-badge": "^1.2.0",
+    "rolldown": "^1.0.0-beta.44",
     "typescript": "^5.9.3",
     "vitest": "^3.2.4"
-  },
-  "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "*"
   },
   "engines": {
     "node": ">=22"
