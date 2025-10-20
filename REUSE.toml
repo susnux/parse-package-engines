@@ -6,7 +6,7 @@ SPDX-PackageSupplier = "Ferdinand Thiessen"
 SPDX-PackageDownloadLocation = "https://github.com/susnux/parse-package-engines"
 
 [[annotations]]
-path = ["badges/coverage.svg"]
+path = ["badges/coverage.svg", "tests/fixtures/*"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "Ferdinand Thiessen"
 SPDX-License-Identifier = "MIT"

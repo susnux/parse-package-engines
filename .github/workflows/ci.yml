@@ -15,21 +15,23 @@ permissions:
   contents: read
 
 jobs:
-  test-action:
+  test-dev-engines:
     name: GitHub Actions Test
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         id: checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
       - name: Test Local Action
         id: test-action
         uses: ./
         with:
-          milliseconds: 2000
+          path: tests/fixtures/dev-engines-only.json
 
-      - name: Print Output
-        id: output
-        run: echo "${{ steps.test-action.outputs.time }}"
+      - name: Check Output
+        run: |
+          [ "${{ steps.test-action.outputs.node-version }}" = ">=16.0.0" ] && \
+          [ "${{ steps.test-action.outputs.package-manager-name }}" = "yarn" ] && \
+          [ "${{ steps.test-action.outputs.package-manager-version }}" = ">=2.0.0" ]
