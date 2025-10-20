@@ -1,5 +1,5 @@
 /*!
- * SPDX-FileCopyrightText: 2024 Ferdinand Thiessen
+ * SPDX-FileCopyrightText: 2025 Ferdinand Thiessen
  * SPDX-License-Identifier: MIT
  */
 

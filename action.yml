@@ -2,6 +2,9 @@ name: parse-package-engines
 description: Parse package engines from package.json files to setup CI environments
 author: Ferdinand Thiessen
 
+# SPDX-FileCopyrightText: 2025 Ferdinand Thiessen
+# SPDX-License-Identifier: MIT
+
 # Add your action's branding here. This will appear on the GitHub Marketplace.
 branding:
   icon: heart

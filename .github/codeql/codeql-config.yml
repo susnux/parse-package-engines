@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2025 Ferdinand Thiessen
+# SPDX-License-Identifier: MIT
+
 name: JavaScript CodeQL Configuration
 
 paths-ignore:

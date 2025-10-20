@@ -1,6 +1,10 @@
-# Create a GitHub Action Using JavaScript
+# parse-package-engines
 
-[![GitHub Super-Linter](https://github.com/actions/javascript-action/actions/workflows/linter.yml/badge.svg)](https://github.com/super-linter/super-linter)
+<!--
+ - SPDX-FileCopyrightText: 2025 Ferdinand Thiessen
+ - SPDX-License-Identifier: MIT
+-->
+
 ![CI](https://github.com/actions/javascript-action/actions/workflows/ci.yml/badge.svg)
 [![Check dist/](https://github.com/actions/javascript-action/actions/workflows/check-dist.yml/badge.svg)](https://github.com/actions/javascript-action/actions/workflows/check-dist.yml)
 [![CodeQL](https://github.com/actions/javascript-action/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/actions/javascript-action/actions/workflows/codeql-analysis.yml)

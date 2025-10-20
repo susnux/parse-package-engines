@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: 2025 Ferdinand Thiessen
+# SPDX-License-Identifier: MIT
+version = 1
+SPDX-PackageName = "parse-package-engines"
+SPDX-PackageSupplier = "Ferdinand Thiessen"
+SPDX-PackageDownloadLocation = "https://github.com/susnux/parse-package-engines"
+
+[[annotations]]
+path = ["badges/coverage.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Ferdinand Thiessen"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ["dist/*",]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Ferdinand Thiessen"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ["package.json", "package-lock.json", ".vscode/*.json", ".devcontainer/devcontainer.json", ".node-version"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Ferdinand Thiessen"
+SPDX-License-Identifier = "MIT"

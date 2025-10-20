@@ -1,3 +1,8 @@
+/*!
+ * SPDX-FileCopyrightText: 2025 Ferdinand Thiessen
+ * SPDX-License-Identifier: MIT
+ */
+
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { getNodeVersion, getPackageManagerInfo } from './main.ts'
 
