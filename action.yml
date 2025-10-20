@@ -1,6 +1,6 @@
-name: The name of your action here
-description: Provide a description here
-author: Your name or organization here
+name: parse-package-engines
+description: Parse package engines from package.json files to setup CI environments
+author: Ferdinand Thiessen
 
 # Add your action's branding here. This will appear on the GitHub Marketplace.
 branding:
@@ -9,15 +9,19 @@ branding:
 
 # Define your inputs here.
 inputs:
-  milliseconds:
-    description: Your input description here
-    required: true
-    default: '1000'
+  path:
+    description: 'Path to the package.json file'
+    required: false
+    default: './package.json'
 
 # Define your outputs here.
 outputs:
-  time:
-    description: Your output description here
+  node-version:
+    description: The detected node version
+  package-manager:
+    description: The detected package manager name
+  package-manager-version:
+    description: The detected package manager version
 
 runs:
   using: node24
