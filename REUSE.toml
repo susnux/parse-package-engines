@@ -1,24 +1,24 @@
-# SPDX-FileCopyrightText: 2025 Ferdinand Thiessen
+# SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
 # SPDX-License-Identifier: MIT
 version = 1
 SPDX-PackageName = "parse-package-engines"
-SPDX-PackageSupplier = "Ferdinand Thiessen"
-SPDX-PackageDownloadLocation = "https://github.com/susnux/parse-package-engines"
+SPDX-PackageSupplier = "Nextcloud GmbH and Nextcloud contributors"
+SPDX-PackageDownloadLocation = "https://github.com/nextcloud-libraries/parse-package-engines-action"
 
 [[annotations]]
 path = ["badges/coverage.svg", "tests/fixtures/*"]
 precedence = "aggregate"
-SPDX-FileCopyrightText = "Ferdinand Thiessen"
+SPDX-FileCopyrightText = "Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "MIT"
 
 [[annotations]]
 path = ["dist/*",]
 precedence = "aggregate"
-SPDX-FileCopyrightText = "Ferdinand Thiessen"
+SPDX-FileCopyrightText = "Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "MIT"
 
 [[annotations]]
 path = ["package.json", "package-lock.json", ".vscode/*.json", ".devcontainer/devcontainer.json", ".node-version"]
 precedence = "aggregate"
-SPDX-FileCopyrightText = "Ferdinand Thiessen"
+SPDX-FileCopyrightText = "Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "MIT"

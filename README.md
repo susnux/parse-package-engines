@@ -48,7 +48,7 @@ jobs:
           persist-credentials: false
 
       - name: Read package.json
-        uses: susnux/parse-package-engines@main # please pin this version to an actual tag for security
+        uses: nextcloud-libraries/parse-package-engines-action@main # please pin this version to an actual tag for security
         id: versions
 
       - name: Set up node ${{ steps.versions.outputs.node-version }}

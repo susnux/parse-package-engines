@@ -7,16 +7,16 @@
     "actions",
     "package.json"
   ],
-  "homepage": "https://github.com/susnux/parse-package-engines#readme",
+  "homepage": "https://github.com/nextcloud-libraries/parse-package-engines-action#readme",
   "bugs": {
-    "url": "https://github.com/susnux/parse-package-engines/issues"
+    "url": "https://github.com/nextcloud-libraries/parse-package-engines-action/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/susnux/parse-package-engines.git"
+    "url": "git+https://github.com/nextcloud-libraries/parse-package-engines-action.git"
   },
   "license": "MIT",
-  "author": "Ferdinand Thiessen <opensource@fthiessen.de>",
+  "author": "Nextcloud GmbH and Nextcloud contributors",
   "type": "module",
   "exports": {
     ".": "./dist/index.js"
@@ -47,6 +47,6 @@
     "vitest": "^3.2.4"
   },
   "engines": {
-    "node": ">=22"
+    "node": "^22 || >= 24"
   }
 }
