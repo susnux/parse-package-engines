@@ -37,7 +37,7 @@
   "devDependencies": {
     "@github/local-action": "^6.0.2",
     "@nextcloud/eslint-config": "^9.0.0-rc.5",
-    "@vitest/coverage-v8": "^3.2.4",
+    "@vitest/coverage-v8": "^4.0.3",
     "builtin-modules": "^5.0.0",
     "coverage-badges-cli": "^2.2.0",
     "eslint": "^9.38.0",
