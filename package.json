@@ -42,7 +42,7 @@
     "coverage-badges-cli": "^2.2.0",
     "eslint": "^9.38.0",
     "make-coverage-badge": "^1.2.0",
-    "rolldown": "^1.0.0-beta.44",
+    "rolldown": "^1.0.0-beta.45",
     "typescript": "^5.9.3",
     "vitest": "^3.2.4"
   },
