@@ -32,7 +32,7 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@actions/core": "^1.11.1"
+    "@actions/core": "^2.0.1"
   },
   "devDependencies": {
     "@github/local-action": "^6.0.2",
